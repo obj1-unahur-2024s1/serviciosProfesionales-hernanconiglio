@@ -1,0 +1,37 @@
+import empresas.*
+import profesionales.*
+import universidad.*
+
+describe "Test de etapa 1" {
+	const sanMartin = new Universidad(provincia="Buenos Aires",honorariosRecomendados=3500)
+	const rosario = new Universidad(provincia="Santa Fe",honorariosRecomendados=2800)
+	const corrientes = new Universidad(provincia="Corrientes",honorariosRecomendados=4200)
+	const hurlingham = new Universidad(provincia="Buenos Aires",honorariosRecomendados=8800)
+	
+	const juana = new ProfesionalVinculado(universidad=rosario)
+	const melina = new ProfesionalAsociado(universidad=corrientes)
+	const rocio = new ProfesionalLibre(universidad=hurlingham,honorariosPorHora=5000,provinciasDondePuedeTrabajar=#{"Santa Fe","Cordoba","Buenos Aires"})
+	const luciana = new ProfesionalLibre(universidad=rosario,honorariosPorHora=3200,provinciasDondePuedeTrabajar=#{"Santa Fe","Entre Rios"})
+	
+	
+	const empresa1 = new Empresa(profesionales=#{juana,melina,rocio,luciana},honorariosDeReferencia=3500)
+	
+	method initialize() {
+		rocio.asignarProvincias(#{"Santa Cruz"})
+		
+	}
+	
+	test "en rosario, estudiaron 2 profesionales" {
+		assert.equals(2,empresa1.cuantosEstudiaronEn(rosario))
+	}
+	
+	test "rocio agrega Santa Cruz como provincia y ahora puede trabajar en 4" {
+		//rocio.asignarProvincias(#{"Santa Cruz"})
+		assert.equals(4,rocio.provinciasDondePuedeTrabajar().size())	
+	}
+
+	test "rocio puede trabajar en 4" {
+		assert.equals(4,rocio.provinciasDondePuedeTrabajar().size())	
+	}
+	
+}
